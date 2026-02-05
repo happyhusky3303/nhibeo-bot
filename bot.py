@@ -192,23 +192,33 @@ async def on_message(message):
             added_weight = random.randint(68, 100)
             food_item = random.choice(BIG_FOOD)
             if food_item == "NGUYÊN 1 CON CẠP":
-                template = "🚨 **NỔ HŨ THẾ GIỚI**! Cabi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
+                template = "🚨🚨🚨 **NỔ HŨ THẾ GIỚI**!🚨🚨🚨 Cabi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
             else:
                 template = "🚨 **NỔ HŨ**! Cabi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
 
         try:
             connection = mysql.connector.connect(**DB_CONFIG)
             cursor = connection.cursor()
+            if food_item == "NGUYÊN 1 CON CẠP":
+                # Update DB
+                update_sql = "UPDATE nhibeo SET nhibeo_weight = nhibeo_weight + %s WHERE id = 1"
+                cursor.execute(update_sql, (added_weight,))
+                connection.commit()
 
-            # Update DB
-            update_sql = "UPDATE nhibeo SET nhibeo_weight = nhibeo_weight + %s WHERE id = 1"
-            cursor.execute(update_sql, (added_weight,))
-            connection.commit()
+                # Get new total
+                select_sql = "SELECT nhibeo_weight FROM nhibeo WHERE id = 1"
+                cursor.execute(select_sql)
+                result = cursor.fetchone()
+            else:
+                # Update DB
+                update_sql = "UPDATE nhibeo SET nhibeo_weight = nhibeo_weight + %s WHERE id = 1"
+                cursor.execute(update_sql, (added_weight,))
+                connection.commit()
 
-            # Get new total
-            select_sql = "SELECT nhibeo_weight FROM nhibeo WHERE id = 1"
-            cursor.execute(select_sql)
-            result = cursor.fetchone()
+                # Get new total
+                select_sql = "SELECT nhibeo_weight FROM nhibeo WHERE id = 1"
+                cursor.execute(select_sql)
+                result = cursor.fetchone()
             
             if result:
                 total_weight = result[0]

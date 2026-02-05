@@ -129,10 +129,10 @@ async def on_message(message):
         return
     
     # ======================================================
-    # COMMAND 3: !nhibeo
+    # COMMAND 3: !capbeo
     # Increases weight by 1kg (From Database)
     # ======================================================
-    if content_lower == "!nhibeo":
+    if content_lower == "!capbeo":
         if message.channel.id != TARGET_CHANNEL_IDS[3]: return # Restrict channel
         try:
             connection = mysql.connector.connect(**DB_CONFIG)
@@ -150,7 +150,7 @@ async def on_message(message):
             
             if result:
                 new_weight = result[0]
-                await message.channel.send(f"Số cân nặng hiện tại của Nhi: **{new_weight}kg**")
+                await message.channel.send(f"Số cân nặng hiện tại của Cabi: **{new_weight}kg**")
 
         except mysql.connector.Error as err:
             await message.channel.send(f"❌ Database error: {err}")
@@ -161,10 +161,10 @@ async def on_message(message):
         return
 
     # ======================================================
-    # COMMAND 4: !nhisieubeo (NEW)
+    # COMMAND 4: !capsieubeo (NEW)
     # Adds random weight 0-100 with weighted probability
     # ======================================================
-    if content_lower == "!nhisieubeo":
+    if content_lower == "!capsieubeo":
         if message.channel.id != TARGET_CHANNEL_IDS[3]: return # Restrict channel
         # 1. Logic to pick random number with rarity
         # We roll a dice from 0 to 100 to determine "Luck Tier"
@@ -181,20 +181,20 @@ async def on_message(message):
             # SMALL TIER
             added_weight = random.randint(1, 32)
             food_item = random.choice(SMALL_FOOD)
-            template = "Linh Nhi đã ăn **{food}** và tăng **{n}** cân! Số cân hiện tại của Linh Nhi: **{total}kg**"
+            template = "Cabi đã ăn **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
         elif chance <= 95:
             # MEDIUM TIER
             added_weight = random.randint(33, 67)
             food_item = random.choice(MEDIUM_FOOD)
-            template = "Khá béo! Linh Nhi đã húp trọn **{food}** và tăng **{n}** cân! Số cân hiện tại của Linh Nhi: **{total}kg**"
+            template = "Khá béo! Cabi đã húp trọn **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
         else:
             # BIG TIER (Jackpot)
             added_weight = random.randint(68, 100)
             food_item = random.choice(BIG_FOOD)
             if food_item == "NGUYÊN 1 CON CẠP":
-                template = "🚨 **NỔ HŨ THẾ GIỚI**! Linh Nhi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Linh Nhi: **{total}kg**"
+                template = "🚨 **NỔ HŨ THẾ GIỚI**! Cabi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
             else:
-                template = "🚨 **NỔ HŨ**! Linh Nhi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Linh Nhi: **{total}kg**"
+                template = "🚨 **NỔ HŨ**! Cabi đã chén sạch **{food}** và tăng **{n}** cân! Số cân hiện tại của Cabi: **{total}kg**"
 
         try:
             connection = mysql.connector.connect(**DB_CONFIG)
@@ -260,7 +260,7 @@ async def on_message(message):
 
                     dm_content = (
                         "Chào mừng bạn đến với giải đấu NEC TFT CUP: CHRONICLES OF TACTIC!\n"
-                        "Hãy vào group Zalo tuyển thủ để nhận những thông báo mới nhất: zalo.me"
+                        "Hãy vào group Zalo tuyển thủ để nhận những thông báo mới nhất: **https://zalo.me/g/tukcyo625**"
                     )
                     try:
                         await message.author.send(dm_content)
